@@ -1,0 +1,11 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+.contentWrapper {
+  display: flex;
+  flex-direction: row;
+}
+.content {
+  flex: 1;
+}

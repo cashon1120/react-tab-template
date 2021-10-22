@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  height: 50px;
+  line-height: 50px;
+  background-color: #101013;
+  nav {
+    display: flex;
+    flex-direction: row;
+    & > div {
+      position: relative;
+      &:hover{
+        & > a {
+          background-color: #2f353f;
+        }
+      }
+      ul {
+        display: none;
+        left: 0;
+        position: absolute;
+        top: 50px;
+        background-color: #2f353f;
+        list-style: none;
+        z-index: 999;
+        width: 120px;
+        li {
+          list-style: none;
+          a {
+            display: block;
+          }
+          a:hover{
+            background-color: #414e59;
+          }
+        }
+      }
+      &:hover {
+        ul {
+          display: block;
+        }
+      }
+      a {
+        display: inline-block;
+        padding: 0 15px;
+        color: #fff;
+      }
+    }
+  }
+}
+
+.logo {
+  width: 100px;
+}

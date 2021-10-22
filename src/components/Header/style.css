@@ -1,0 +1,46 @@
+.wrapper {
+  display: flex;
+  height: 50px;
+  line-height: 50px;
+  background-color: #101013;
+}
+.wrapper nav {
+  display: flex;
+  flex-direction: row;
+}
+.wrapper nav > div {
+  position: relative;
+}
+.wrapper nav > div:hover > a {
+  background-color: #2f353f;
+}
+.wrapper nav > div ul {
+  display: none;
+  left: 0;
+  position: absolute;
+  top: 50px;
+  background-color: #2f353f;
+  list-style: none;
+  z-index: 999;
+  width: 120px;
+}
+.wrapper nav > div ul li {
+  list-style: none;
+}
+.wrapper nav > div ul li a {
+  display: block;
+}
+.wrapper nav > div ul li a:hover {
+  background-color: #414e59;
+}
+.wrapper nav > div:hover ul {
+  display: block;
+}
+.wrapper nav > div a {
+  display: inline-block;
+  padding: 0 15px;
+  color: #fff;
+}
+.logo {
+  width: 100px;
+}

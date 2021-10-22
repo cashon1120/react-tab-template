@@ -1,0 +1,59 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+.wrapper .tabWrapper {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  margin-top: 1px;
+  padding-left: 10px;
+}
+.wrapper .tabWrapper div {
+  margin-right: 1px;
+  position: relative;
+}
+.wrapper .tabWrapper div a {
+  padding: 5px 25px 5px 15px;
+  border: 1px solid #eee;
+  display: block;
+  background-color: #eee;
+  border-bottom: 0;
+  position: relative;
+  color: #999;
+}
+.wrapper .tabWrapper div a.active {
+  background-color: #fff;
+  color: #007fff;
+}
+.wrapper .tabWrapper div a.active::after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 1px;
+  background-color: #fff;
+  left: 0;
+  width: 100%;
+  bottom: -1px;
+}
+.wrapper .tabWrapper div .close {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+  height: 15px;
+  line-height: 12px;
+  margin-left: 10px;
+  font-size: 0.16rem;
+  text-align: center;
+  display: block;
+  border-radius: 100%;
+  font-style: normal;
+}
+.wrapper .tabWrapper div .close:hover {
+  background: #ddd;
+  cursor: default;
+}
+.wrapper .content {
+  flex: 1;
+}
