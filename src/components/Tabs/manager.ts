@@ -128,10 +128,10 @@ class Manager implements ManagerClass {
       if (redirect) {
         history.push(redirect);
       } else {
-        let queryString = ''
-        if(disableExcuteOnQuery && this.routes[path]){
+        let queryString = '';
+        if (disableExcuteOnQuery && this.routes[path]) {
           queryString = this.routes[path].queryString;
-        }else{
+        } else {
           // 处理带参数跳转的情况
           if (params) {
             queryString = setLocationQuery(params);
@@ -281,7 +281,7 @@ class Manager implements ManagerClass {
       component || '',
       parentPath,
     );
-    this.routes[path].queryString = getLocationQuery()
+    this.routes[path].queryString = getLocationQuery();
     Object.keys(this.routes).forEach((key: string) => {
       if (key === path) {
         this.routes[key].setShowState(true);
@@ -339,7 +339,6 @@ class Manager implements ManagerClass {
   };
 
   bindTabFunction = (closeFn: Function) => {
-    // this.unloadFunctionFromLayout = unloadFn;
     this.closeTabFunctionFromLayout = closeFn;
   };
 
@@ -355,7 +354,7 @@ class Manager implements ManagerClass {
     }
   };
 
-  postMessage = (path: string, data: any) => {
+  postMessage = (path: string, data: any, callback?: Function) => {
     if (!this.routes[path]) {
       return;
     }
@@ -364,9 +363,10 @@ class Manager implements ManagerClass {
     if (onMessage && !unload) {
       this.forceUpdateWithMessagePath = path;
       onMessage(data);
+      callback && callback()
     } else {
       console.warn(
-        '消息发送失败, 可能目标页面还没打开, 或者没有绑定 onMessage事件',
+        '消息发送失败, 可能目标页面还没打开, 或者没有绑定 onMessage 事件',
       );
     }
   };
@@ -382,6 +382,12 @@ class Manager implements ManagerClass {
 
   getQuery = () => {
     return getQueryByString(location.search);
+  };
+
+  getParentPath = () => {
+    return (
+      this.flatRoutes[this.getCurrentPath()].parentPath || this.getCurrentPath()
+    );
   };
 }
 

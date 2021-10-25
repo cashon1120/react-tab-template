@@ -25,5 +25,5 @@ export const getQueryByString = (params: string) => {
 };
 
 export const getLocationQuery = () => {
-  return location.search
-}
+  return location.search;
+};

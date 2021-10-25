@@ -38,7 +38,9 @@ const Index = () => {
           style={{ width: 200 }}
           placeholder="输入内容向class组件发送消息"
         />{' '}
-        <button onClick={() => tabs.postMessage('/test/class', message)}>
+        <button onClick={() => tabs.postMessage('/test/class', message, () => {
+          alert('消息发送成功')
+        })}>
           发送
         </button>
         <p />

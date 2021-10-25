@@ -10,30 +10,26 @@ const Tab = (props: IProps) => {
   const { data } = props;
   return (
     <div className={styles.wrapper}>
-      <div className={styles.tabWrapper}>
-        {tabs.checkDisableShowSubTabs()
-          ? null
-          : data.map((item: ILayoutMenu) => (
-              <div key={item.path}>
-                <a
-                  onClick={() => tabs.open(item.path)}
-                  data-path={item.path}
-                  className={
-                    tabs.getCurrentPath() === item.path ? styles.active : null
-                  }
-                >
-                  {tabs.routes[item.path]?.getTitle()}
-                </a>
-                <i
-                  onClick={() => tabs.close(item.path)}
-                  className={styles.close}
-                >
-                  x
-                </i>
-              </div>
-            ))}
-      </div>
-
+      {tabs.checkDisableShowSubTabs() ? null : (
+        <div className={styles.tabWrapper}>
+          {data.map((item: ILayoutMenu) => (
+            <div key={item.path}>
+              <a
+                onClick={() => tabs.open(item.path)}
+                data-path={item.path}
+                className={
+                  tabs.getCurrentPath() === item.path ? styles.active : null
+                }
+              >
+                {tabs.routes[item.path]?.getTitle()}
+              </a>
+              <i onClick={() => tabs.close(item.path)} className={styles.close}>
+                x
+              </i>
+            </div>
+          ))}
+        </div>
+      )}
       <div className={styles.content}>
         {data.map((item: ILayoutMenu) => (
           <div

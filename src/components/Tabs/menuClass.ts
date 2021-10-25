@@ -15,7 +15,7 @@ class Menu implements IMenu {
   icon?: string;
   events: RoutesEventProps;
   // 保存地址栏参数, 关闭标签页后跳转到当前页时用
-  queryString: string
+  queryString: string;
 
   constructor(params: MenuProps) {
     const { path, show, children, routes, showParent } = params;
@@ -30,7 +30,7 @@ class Menu implements IMenu {
     this.icon = '';
     this.parentPath = '';
     this.unload = false;
-    this.queryString = ''
+    this.queryString = '';
     this.events = {
       onShow: null,
       onHide: null,

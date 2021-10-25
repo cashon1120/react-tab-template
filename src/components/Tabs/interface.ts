@@ -68,11 +68,13 @@ export interface ManagerClass {
   // 绑定卸载和关闭标签方法
   bindTabFunction: (scloseFn: Function) => void;
   // 标签之间通信
-  postMessage: (toPath: string, data: any) => void;
+  postMessage: (toPath: string, data: any, callback?: Function) => void;
   // 给routes添加新的页面
   addRoute: (route: IMenu, path: string) => void;
   // 获取地址栏参数, 返回 {key: value} 格式
   getQuery: () => Object;
+  // 判断是否为显示active效果
+  getParentPath: (path: string) => string;
 }
 
 // 很多属性其实是可以直接获取的, 不需要如getShowState之类的方法, 是为了方便以后扩展, 可能会触发一些事件
