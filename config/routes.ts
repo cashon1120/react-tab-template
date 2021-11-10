@@ -22,7 +22,7 @@ export interface RouteProps {
 
 const routes: RouteProps[] = [
   {
-    path: '/home',
+    path: '/',
     exact: true,
     name: '首页',
     component: '@/pages/home',
