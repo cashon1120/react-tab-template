@@ -1,15 +1,15 @@
 export interface RouteProps {
   path: string;
   id: number;
+
   pid?: number;
   component?: string;
   routes?: RouteProps[];
   exact?: boolean;
   children?: RouteProps[];
   redirect?: string;
+  parentPath?: string;
   name?: string;
-
-  _activeIcon?: string; // 默认激活图片会在 _icon后面加 _active, 图片命名好就可以不用这个参数
   // 禁止在导航里显示子菜单
   _disableShowSubRoutes?: boolean;
   // 禁止显示标签栏
@@ -18,8 +18,6 @@ export interface RouteProps {
   _disableUnload?: boolean;
   // 默认参数, 如配置了 home/:class/:id, 默认参数就为 '/3/2'
   _defaultParams?: number[] | string[];
-  sort?: number;
-  parentPath?: string;
 }
 
 const routes: RouteProps[] = [
