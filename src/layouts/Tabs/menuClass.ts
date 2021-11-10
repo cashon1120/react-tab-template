@@ -5,32 +5,37 @@ class Menu implements IMenu {
   path: string;
   show: boolean;
   title: string;
-  showParent?: boolean;
   unload: boolean;
+  id?: number;
+  // 保存地址栏参数, 关闭标签页后跳转到当前页时用
+  queryString: string;
+  showParent?: boolean;
   children?: React.ReactElement | null;
   parentPath: string;
+  topPath: string;
   routes?: IMenu[];
   redirect?: string;
   component?: string;
-  icon?: string;
+  fromPath?: string;
   events: RoutesEventProps;
-  // 保存地址栏参数, 关闭标签页后跳转到当前页时用
-  queryString: string;
 
   constructor(params: MenuProps) {
-    const { path, show, children, routes, showParent } = params;
+    const { path, show, children, routes, showParent, fromPath } = params;
     this.key = path;
     this.path = path;
     this.show = show;
     this.showParent = showParent;
     this.children = children || null;
+    this.fromPath = fromPath;
     this.routes = routes;
     this.title = '';
     this.component = '';
-    this.icon = '';
+    this.id = 0;
     this.parentPath = '';
+    this.topPath = '';
     this.unload = false;
     this.queryString = '';
+    this.id = undefined;
     this.events = {
       onShow: null,
       onHide: null,
@@ -40,6 +45,7 @@ class Menu implements IMenu {
       postMessage: null,
       onConfirmClose: null,
       onQuery: null,
+      onRouteChange: null,
     };
   }
 
@@ -80,18 +86,24 @@ class Menu implements IMenu {
     return this.title;
   };
 
+  setTitle = (title: string) => {
+    this.title = title;
+  };
+
   setRoutesOptions = (
     title: string,
     redirect: string,
-    icon: string,
     component: string,
     parentPath: string,
+    topPath: string,
+    id: number | undefined,
   ) => {
     this.title = title;
     this.redirect = redirect;
-    this.icon = icon;
     this.component = component;
     this.parentPath = parentPath;
+    this.topPath = topPath;
+    this.id = id;
   };
 
   unloadComponent = () => {

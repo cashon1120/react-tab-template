@@ -1,0 +1,77 @@
+@default_bg_color: #edf2f4;
+@default_font_color: #333;
+@default_border_color: @default_bg_color;
+
+@border_color: #e1e1e1;
+@hover_font_color: #53A0FD;
+@active_bg_color: #fff;
+@active_font_color: #1677FF;
+
+.contentWrapper {
+  height: 100%;
+}
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+  &.hasTabWrapper {
+    padding: 15px;
+    box-sizing: border-box;
+    .content {
+      background-color: @active_bg_color;
+      border: 1px solid @border_color;
+      padding: 15px;
+    }
+  }
+  .tabWrapper {
+    display: flex;
+    margin-top: 1px;
+    div {
+      margin-right: 1px;
+      position: relative;
+      margin-right: 5px;
+      a {
+        padding: 8px 25px 8px 15px;
+        display: block;
+        border-radius: 3px 3px 0 0;
+        background-color: @default_bg_color;
+        border-bottom: 0;
+        position: relative;
+        color: @default_font_color;
+        border: 1px solid @default_border_color;
+        border-bottom: 1px solid @border_color;
+        top: 1px;
+        &.active {
+          background-color: @active_bg_color;
+          border-color: @border_color;
+          border-bottom: 1px solid @active_bg_color;
+          color: @active_font_color;
+        }
+        &:hover {
+          color: @hover_font_color;
+        }
+      }
+      .close {
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-left: 10px;
+        font-size: 12px;
+        text-align: center;
+        display: block;
+        border-radius: 100%;
+        font-style: normal;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.3);
+        &:hover {
+          color: #01aeec;
+        }
+      }
+    }
+  }
+  .content {
+    flex: 1;
+  }
+}

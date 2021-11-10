@@ -1,8 +1,12 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { tabs } from '@/components/Tabs';
+import { tabs } from '@/layouts/Tabs';
 
+interface IProps {
+  location: any;
+  count: number;
+}
 interface IState {
   data: number;
   show: boolean;
@@ -10,8 +14,8 @@ interface IState {
   query: any;
 }
 
-class Index extends React.Component<null, IState> {
-  constructor(props: any) {
+class Index extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
     this.state = {
       data: 0,
@@ -28,11 +32,11 @@ class Index extends React.Component<null, IState> {
     tabs.addEventListener('onMessage', this.onMessage);
     tabs.addEventListener('onConfirmClose', this.onConfirmClose);
     tabs.addEventListener('onQuery', this.onQuery);
-    this.timer = setInterval(this.updateState, 1000);
+    // this.timer = setInterval(this.updateState, 1000);
 
     // 地址栏有参数, 刷新的时候需要单独处理
-    if(tabs.getQuery()){
-      this.onQuery(tabs.getQuery())
+    if (tabs.getQuery()) {
+      this.onQuery(tabs.getQuery());
     }
   }
 
@@ -42,7 +46,7 @@ class Index extends React.Component<null, IState> {
   };
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
   }
 
   updateState = () => {
@@ -54,7 +58,7 @@ class Index extends React.Component<null, IState> {
   };
 
   onQuery = (params: any) => {
-    console.log('执行onQuery')
+    console.log('执行onQuery');
     this.setState({
       query: JSON.stringify(params),
     });
@@ -96,26 +100,24 @@ class Index extends React.Component<null, IState> {
     });
   };
   render() {
-    const { data, message, query } = this.state;
+    const { message, query } = this.state;
+
     return (
       <>
         <div style={{ padding: 25, lineHeight: 2 }}>
-          这是一个class组件, 切换会调用 onShow 或 onHide 方法,
-          <br />
-          当后面点过的页面超过3个时会清空状态 <br />
-          <div>当前数据(1秒更新一次):{data}</div>
-          <input />
+          当后面点过的页面超过 MAX_COUNT 时会清空状态 <br />
           <p />
-          消息: {message || '还没有消息'}
+          监听 onMessage 事件: {message}
           <p />
-          地址栏参数: {query || '没有参数'}
+          监听 onQuery 事件, 获取到的参数: {query}
           <p />
-          <button onClick={() => tabs.open('/test/function')}>
-            跳转到function组件
-          </button>
+          state参数, {JSON.stringify(this.props.location.state)}
+          <p />
         </div>
       </>
     );
   }
 }
+
+
 export default Index;

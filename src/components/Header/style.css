@@ -3,6 +3,7 @@
   height: 50px;
   line-height: 50px;
   background-color: #101013;
+  color: #fff;
 }
 .wrapper nav {
   display: flex;
@@ -12,7 +13,7 @@
   position: relative;
 }
 .wrapper nav > div:hover > a {
-  background-color: #2f353f;
+  background-color: #fff;
 }
 .wrapper nav > div ul {
   display: none;

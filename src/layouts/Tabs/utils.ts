@@ -27,3 +27,7 @@ export const getQueryByString = (params: string) => {
 export const getLocationQuery = () => {
   return location.search;
 };
+
+export const toLocaleLowerCase = (str: string) => {
+  return str.toLocaleLowerCase();
+};
