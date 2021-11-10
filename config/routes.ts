@@ -64,6 +64,15 @@ const routes: RouteProps[] = [
         name: '方法说明',
         id: 4002,
         pid: 400,
+        routes: [
+          {
+            path: '/test/function/in',
+            component: '@/pages/testpages/function/in',
+            name: '标签内新开页',
+            id: 4002,
+            pid: 400,
+          }
+        ]
       },
     ],
   },

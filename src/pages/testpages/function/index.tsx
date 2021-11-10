@@ -99,7 +99,7 @@ const Index = (props: any) => {
       exam: (
         <Button
           onClick={() =>
-            tabs.replace('/test/class/edit', { id: Math.random() })
+            tabs.replace('/test/function/in', { id: Math.random() })
           }
         >
           标签内打开

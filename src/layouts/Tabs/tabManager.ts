@@ -582,11 +582,7 @@ class TabManager implements ManagerClass {
 
   getRouteProps = (path?: string): any => {
     const _path = path || this.getCurrentPath();
-    let currentRoutes = this.permissionRoutes[_path];
-    if (!currentRoutes) {
-      return { id: 0, permission: null };
-    }
-    const { id, name, parentPath, pid } = currentRoutes;
+    const { id, name, parentPath, pid } = this.flatRoutes[_path];
     return {
       id,
       name,
