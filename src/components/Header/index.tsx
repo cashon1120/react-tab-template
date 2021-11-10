@@ -12,10 +12,11 @@ const Header = () => {
     }, 100);
     tabs.open(path);
   };
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.logo}>
-        <div>标签页面DEMO</div>
+        <div>标签页DEMO</div>
       </div>
       <nav>
         {tabs.sourceRoutes.map((route: RouteProps) =>

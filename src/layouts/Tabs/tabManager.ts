@@ -569,7 +569,10 @@ class TabManager implements ManagerClass {
     return getQueryByString(location.search);
   };
 
-  getParentPath = () => {
+  getParentPath = (path?: string) => {
+    console.log(1123)
+    console.log(path)
+    console.log(this.flatRoutes[this.getCurrentPath()]?.parentPath || this.getCurrentPath())
     return (
       this.flatRoutes[this.getCurrentPath()]?.parentPath ||
       this.getCurrentPath()

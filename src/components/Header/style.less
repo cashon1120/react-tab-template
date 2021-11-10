@@ -9,10 +9,9 @@
     flex-direction: row;
     & > div {
       position: relative;
+      margin-right: 1px;
       &:hover{
-        & > a {
-          background-color: #fff;
-        }
+          background-color: #2f353f !important;
       }
       ul {
         display: none;
@@ -22,7 +21,7 @@
         background-color: #2f353f;
         list-style: none;
         z-index: 999;
-        width: 120px;
+        width: 150px;
         li {
           list-style: none;
           a {
@@ -40,13 +39,19 @@
       }
       a {
         display: inline-block;
-        padding: 0 15px;
+        padding: 0 25px;
         color: #fff;
+        &.active{
+          background-color: #2f353f;
+        }
       }
     }
   }
 }
 
 .logo {
-  width: 100px;
+  width: 200px;
+  padding-left: 15px;
+  font-size: 20px;
+  color: #c7dae5;
 }

@@ -11,9 +11,10 @@
 }
 .wrapper nav > div {
   position: relative;
+  margin-right: 1px;
 }
-.wrapper nav > div:hover > a {
-  background-color: #fff;
+.wrapper nav > div:hover {
+  background-color: #2f353f !important;
 }
 .wrapper nav > div ul {
   display: none;
@@ -23,7 +24,7 @@
   background-color: #2f353f;
   list-style: none;
   z-index: 999;
-  width: 120px;
+  width: 150px;
 }
 .wrapper nav > div ul li {
   list-style: none;
@@ -39,9 +40,15 @@
 }
 .wrapper nav > div a {
   display: inline-block;
-  padding: 0 15px;
+  padding: 0 25px;
   color: #fff;
 }
+.wrapper nav > div a.active {
+  background-color: #2f353f;
+}
 .logo {
-  width: 100px;
+  width: 200px;
+  padding-left: 15px;
+  font-size: 20px;
+  color: #c7dae5;
 }
