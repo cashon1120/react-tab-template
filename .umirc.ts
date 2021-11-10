@@ -1,10 +1,11 @@
 import { defineConfig } from 'umi';
 import routes, { RouteProps } from './config/routes';
 
+// 配置路由时是按自己层级配的, umi需要排平的路由配置, 且只需要几个关键的参数, component, redirect, path
 const handleFlatRoutes = (routers: RouteProps[], res: RouteProps[] = []) => {
   routers.forEach((route: RouteProps) => {
     const { path, component, routes, redirect } = route;
-    const newRoute: RouteProps = {
+    const newRoute: any = {
       path,
     };
     component ? (newRoute.component = component) : null;
@@ -28,13 +29,7 @@ export default defineConfig({
     { 'http-equiv': 'Cache-control', content: 'no-cache' },
     { 'http-equiv': 'Cache', content: 'no-cache' },
   ],
-  headScripts: [
-    { src: '/servers.js', type: 'text/javascript' },
-    `history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', function () {
-      history.pushState(null, null, document.URL);
-    });`,
-  ],
+
   nodeModulesTransform: {
     type: 'none',
   },
