@@ -49,7 +49,7 @@ const Index = (props: any) => {
     {
       name: 'tabs.addEventListener(eventName: string, event: Function)',
       desc: '给页面添加事件,eventName, onShow | onHide | onClose | onConfirmClose | onMessage | onRouteChange | onQuery | onRefresh(暂未实现), 所有事件在初次打开时不会执行, onConfirmClose 必须返回Promise, new Promise((resolve) => resolve(result: boolean))',
-      exam: '在useEffcet或componentDidMount里绑定事件, tabs.addEventListener("onShow", this.onShow);',
+      exam: '在useEffcet或componentDidMount里绑定事件, 如: tabs.addEventListener("onShow", this.onShow);',
     },
     {
       name: 'tabs.postMessage(path: string, params: any)',
@@ -67,6 +67,11 @@ const Index = (props: any) => {
       ),
     },
     {
+      name: 'tabs.getQuery()',
+      desc: '获取地址栏参数',
+      exam: '',
+    },
+    {
       name: 'tabs.open(path: string, params?: any)',
       desc: '打开标签, 如果带有params参数, 会在地址栏带上对应参数',
       exam: (
@@ -74,11 +79,6 @@ const Index = (props: any) => {
           带参数跳转
         </Button>
       ),
-    },
-    {
-      name: 'tabs.getQuery()',
-      desc: '获取地址栏参数',
-      exam: '',
     },
     {
       name: 'tabs.openWithState(path: string, state?: any)',
@@ -102,14 +102,20 @@ const Index = (props: any) => {
             tabs.replace('/test/function/in', { id: Math.random() })
           }
         >
-          标签内打开
+          标签内带参数打开
         </Button>
       ),
     },
     {
       name: 'tabs.replaceWithState(path: string, state?: any)',
       desc: '在当前标签内打开页面, 其它同tabs.openWithState',
-      exam: '',
+      exam: <Button
+      onClick={() =>
+            tabs.replaceWithState('/test/function/in', { id: Math.random() })
+          }
+        >
+          标签内带state打开
+        </Button>,
     },
     {
       name: 'tabs.getRouteProps(path?: string)',

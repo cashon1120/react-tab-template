@@ -30,12 +30,10 @@ class Menu implements IMenu {
     this.routes = routes;
     this.title = '';
     this.component = '';
-    this.id = 0;
     this.parentPath = '';
     this.topPath = '';
     this.unload = false;
     this.queryString = '';
-    this.id = undefined;
     this.events = {
       onShow: null,
       onHide: null,
@@ -96,14 +94,12 @@ class Menu implements IMenu {
     component: string,
     parentPath: string,
     topPath: string,
-    id: number | undefined,
   ) => {
     this.title = title;
     this.redirect = redirect;
     this.component = component;
     this.parentPath = parentPath;
     this.topPath = topPath;
-    this.id = id;
   };
 
   unloadComponent = () => {

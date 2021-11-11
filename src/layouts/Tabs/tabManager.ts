@@ -6,6 +6,8 @@ import {
   getQueryByString,
   getLocationQuery,
   toLocaleLowerCase,
+  handleFlatRoutes,
+  removeAllQuery,
 } from './utils';
 import {
   ManagerClass,
@@ -22,44 +24,6 @@ export { RouteProps };
 
 const navManager = new NavManager();
 
-const removeQuery = (path: string) => {
-  if (path.indexOf('?') === -1) return path;
-  return path.split('?')[0];
-};
-
-const removeRoutesQuery = (path: string) => {
-  return path.replace(/\/\d+/g, '').replace(/\/\:\w+/g, '');
-};
-
-const removeAllQuery = (path: string) => {
-  return removeRoutesQuery(removeQuery(path));
-};
-
-// 拍平数组
-const handleFlatRoutes = (routers: RouteProps[]) => {
-  let routesObj: any = {};
-  const idMapToPath: any = {};
-  const flatRoutes = (routers: RouteProps[], parentPath?: string) => {
-    routers.forEach((route: RouteProps) => {
-      let { path, routes, id } = route;
-      path = removeRoutesQuery(
-        toLocaleLowerCase(path.replace(/\/\:\w+/g, '')),
-      ).replace(/\?/g, '');
-      idMapToPath[id as number] = path;
-      routesObj[path] = {
-        ...route,
-        path: path,
-        parentPath: toLocaleLowerCase(parentPath || ''),
-      };
-      if (routes) {
-        flatRoutes(routes, path);
-      }
-    });
-  };
-  flatRoutes(routers);
-  return { routesObj, idMapToPath };
-};
-
 class TabManager implements ManagerClass {
   // 原封不动的路由
   sourceRoutes: RouteProps[];
@@ -67,8 +31,6 @@ class TabManager implements ManagerClass {
   flatRoutes: FlatRoutes;
   // 有权限的路由
   permissionRoutes: FlatRoutes;
-  // id 对应的路由映射
-  idMapToPath: any;
   // 外层导航显示的数据
   menu: ILayoutMenu[];
   // 打开后会用到的route
@@ -91,12 +53,14 @@ class TabManager implements ManagerClass {
   // 强制更新
   forceUpdate: Function;
 
+  // 404地址
+  notFoundPageName: string
+
   constructor() {
     this.flatRoutes = {};
     this.permissionRoutes = {
       '/notfound': this.flatRoutes['/notfound'],
     };
-    this.idMapToPath = {};
     this.sourceRoutes = [];
     this.routes = {};
     this.menu = navManager.menu;
@@ -106,6 +70,7 @@ class TabManager implements ManagerClass {
     this.cacheMenu = [];
     this.onRouteChangeCallback = [];
     this.forceUpdate = () => {};
+    this.notFoundPageName = ''
     this.replaceOption = {
       willReplace: false,
       topPath: '',
@@ -116,11 +81,18 @@ class TabManager implements ManagerClass {
   }
 
   init = (params: InitParams) => {
-    const {route, maxCount} = params
-    const { routesObj, idMapToPath } = handleFlatRoutes(route);
+    const {routes, notFoundPageName, maxCount, } = params
+    if(!Array.isArray(routes)){
+      throw new Error('请传入正确的路由配置');
+    }
+    if(!notFoundPageName){
+      throw new Error('请传入404路由地址, 在umirc.ts里配置');
+    }
+    const routesObj = handleFlatRoutes(routes);
     this.flatRoutes = routesObj;
-    this.idMapToPath = idMapToPath
-    this.sourceRoutes = route
+    this.sourceRoutes = routes
+    // 防止传入的地址不带 /
+    this.notFoundPageName = '/' + notFoundPageName.replace('/', '')
     if(maxCount && typeof maxCount === 'number'){
       this.MAX_COUNT = maxCount
     }
@@ -160,7 +132,7 @@ class TabManager implements ManagerClass {
     // 没有对应路由不处理
     if (
       (this.flatRoutes[path] && !this.flatRoutes[path].component) ||
-      path === '/notfound' ||
+      path === this.notFoundPageName ||
       !this.flatRoutes[path]
     ) {
       return this.openedRoutesListt;
@@ -181,7 +153,7 @@ class TabManager implements ManagerClass {
   };
 
   private notFoundRoutes = () => {
-    history.replace('/notfound');
+    history.replace(this.notFoundPageName);
   };
 
   private checkRouteExist = (path: string): boolean => {
@@ -485,7 +457,7 @@ class TabManager implements ManagerClass {
   };
 
   updateRoutes = (path: string) => {
-    const { name, redirect, id, component, parentPath } =
+    const { name, redirect,  component, parentPath } =
       this.flatRoutes[path];
     const topPath = this.getTopPath(path);
     const level = this.checkRouteLevel(path);
@@ -495,7 +467,6 @@ class TabManager implements ManagerClass {
       component || '',
       parentPath || '',
       topPath || '',
-      id,
     );
     this.routes[path].queryString = getLocationQuery();
     Object.keys(this.routes).forEach((key: string) => {
@@ -576,10 +547,10 @@ class TabManager implements ManagerClass {
 
   getParentPath = (path?: string) => {
     if(path){
-      return this.flatRoutes[path].parentPath || path
+      return this.flatRoutes[path]?.parentPath || path
     }
     return (
-      this.flatRoutes[this.getCurrentPath()].parentPath ||
+      this.flatRoutes[this.getCurrentPath()]?.parentPath ||
       this.getCurrentPath()
     );
   };
@@ -590,11 +561,9 @@ class TabManager implements ManagerClass {
 
   getRouteProps = (path?: string): any => {
     const _path = path || this.getCurrentPath();
-    const { id, name, parentPath, pid } = this.flatRoutes[_path];
+    const {  name, parentPath,  } = this.flatRoutes[_path];
     return {
-      id,
       name,
-      pid,
       parentPath,
     };
   };

@@ -49,8 +49,9 @@ export interface ReplaceOption {
 }
 
 export interface InitParams {
-  route: RouteProps[],
-  maxCount?: number
+  routes: RouteProps[];
+  notFoundPageName: string;
+  maxCount?: number;
 }
 export interface ManagerClass {
   replaceOption: ReplaceOption;
@@ -134,7 +135,6 @@ export interface IMenu extends TabRoutesProps {
     component: string,
     parentPath: string,
     topPath: string,
-    id: number | undefined,
   ) => void;
   getTitle: () => string;
   setTitle: (title: string) => void;

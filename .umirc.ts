@@ -39,9 +39,12 @@ export default defineConfig({
   },
   routes: [
     // 可在这里配置一个登录页
-    // { path: '/login', component: '@/pages/login' },
+    { path: '/login', component: '@/pages/login' },
+    // 404页面
+    { path: '/notfound', component: '@/pages/404'},
     {
       component: '@/layouts',
+      path: '/',
       routes: flatRoutes,
     },
   ],
