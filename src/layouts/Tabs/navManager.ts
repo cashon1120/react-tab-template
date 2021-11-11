@@ -13,7 +13,7 @@ class NavManager {
     this.tabs = tabs;
   };
 
-  updateMenuState = (path: string, level: number, props: any) => {
+  updateTabState = (path: string, level: number, props: any) => {
     if (level === 1) {
       if (
         this.menu.filter((item: ILayoutMenu) => item.path === path).length === 0
@@ -133,7 +133,7 @@ class NavManager {
       this.replaceMenu(path, props);
       return;
     }
-    this.updateMenuState(path, level, props);
+    this.updateTabState(path, level, props);
   };
 
   // 删除

@@ -15,6 +15,7 @@ import {
   TabRoutes,
   EventName,
   ReplaceOption,
+  InitParams,
 } from './interface';
 
 export { RouteProps };
@@ -114,11 +115,15 @@ class TabManager implements ManagerClass {
     navManager.init(this);
   }
 
-  initRoutes = (route: RouteProps[]) => {
+  init = (params: InitParams) => {
+    const {route, maxCount} = params
     const { routesObj, idMapToPath } = handleFlatRoutes(route);
     this.flatRoutes = routesObj;
     this.idMapToPath = idMapToPath
     this.sourceRoutes = route
+    if(maxCount && typeof maxCount === 'number'){
+      this.MAX_COUNT = maxCount
+    }
   };
 
   // 判断组件是否需要更新, class 组件和函数组件是相反的, 如返回 true, class组件是会更新, 函数组件则不更新
@@ -570,11 +575,11 @@ class TabManager implements ManagerClass {
   };
 
   getParentPath = (path?: string) => {
-    console.log(1123)
-    console.log(path)
-    console.log(this.flatRoutes[this.getCurrentPath()]?.parentPath || this.getCurrentPath())
+    if(path){
+      return this.flatRoutes[path].parentPath || path
+    }
     return (
-      this.flatRoutes[this.getCurrentPath()]?.parentPath ||
+      this.flatRoutes[this.getCurrentPath()].parentPath ||
       this.getCurrentPath()
     );
   };
@@ -610,7 +615,7 @@ class TabManager implements ManagerClass {
     }
   };
 
-  updateMenu = (props: any) => {
+  updateTab = (props: any) => {
     navManager.setMenuState(props);
     this.menu = navManager.menu;
   };

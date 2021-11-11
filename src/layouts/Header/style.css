@@ -1,0 +1,116 @@
+.headerWrapper {
+  display: flex;
+  height: 50px;
+  line-height: 50px;
+  background-color: #101013;
+  color: #fff;
+}
+.headerWrapper nav {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+.headerWrapper nav .arrow {
+  font-size: 12px;
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%) scaleY(0.8) rotate(0);
+  transition: all 0.3s;
+}
+.headerWrapper nav > div {
+  position: relative;
+}
+.headerWrapper nav > div a {
+  display: block;
+  position: relative;
+}
+.headerWrapper nav > div:hover {
+  background-color: #2f353f !important;
+}
+.headerWrapper nav > div ul {
+  display: none;
+  left: 0;
+  position: absolute;
+  top: 50px;
+  background-color: #252d32;
+  list-style: none;
+  z-index: 999;
+  width: 150px;
+}
+.headerWrapper nav > div ul li {
+  list-style: none;
+}
+.headerWrapper nav > div ul li a {
+  display: block;
+}
+.headerWrapper nav > div ul li a:hover {
+  background-color: #353b44;
+}
+.headerWrapper nav > div a {
+  padding: 0 25px;
+  color: #fff;
+}
+.headerWrapper nav > div a.active {
+  background-color: #2f353f;
+}
+.headerWrapper .layoutChangeBtn {
+  padding: 0 15px;
+  cursor: pointer;
+  text-align: center;
+}
+.headerWrapper .layoutChangeBtn span {
+  margin-right: 5px;
+}
+.headerWrapper.horizontal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  flex-direction: column;
+  width: 180px;
+  height: 100%;
+}
+.headerWrapper.horizontal nav {
+  flex-direction: column;
+}
+.headerWrapper.horizontal nav .arrow.up {
+  transform: translateY(-50%) scaleY(0.8) rotate(180deg);
+}
+.headerWrapper.horizontal nav > div {
+  margin-bottom: 1px;
+}
+.headerWrapper.horizontal nav > div ul {
+  background-color: #1d2428;
+  width: 100%;
+}
+.headerWrapper.horizontal nav > div ul.show {
+  display: block;
+}
+.headerWrapper.horizontal nav > div ul.hide {
+  display: none;
+}
+.headerWrapper.horizontal nav > div ul li {
+  margin-top: 1px;
+}
+.headerWrapper.horizontal nav > div ul li.subAcitve {
+  background-color: #2f353f;
+}
+.headerWrapper.vertical {
+  flex-direction: row;
+}
+.headerWrapper.vertical nav > div {
+  margin-right: 1px;
+}
+.headerWrapper.vertical nav > div:hover .arrow {
+  transform: translateY(-50%) scaleY(0.8) rotate(180deg);
+}
+.headerWrapper.vertical nav > div:hover ul {
+  display: block;
+}
+.headerWrapper .logo {
+  width: 180px;
+  padding-left: 15px;
+  font-size: 20px;
+  color: #c7dae5;
+}

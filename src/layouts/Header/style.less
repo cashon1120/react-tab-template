@@ -1,0 +1,141 @@
+@logo_width: 180px;
+
+@header_bg: rgba(16, 16, 19, 1);
+@nav_bg: rgba(16, 16, 19, 1);
+@nav_active_bg: rgba(47,53,63, 1);
+@horizontal_ul_bg: rgba(29, 36, 40, 1);
+@sub_nav_bg: rgba(37, 45, 50, 1);
+@sub_nav_hover_bg: rgba(53, 59, 68, 1);
+
+.headerWrapper {
+  display: flex;
+  height: 50px;
+  line-height: 50px;
+  background-color: @header_bg;
+  color: #fff;
+
+  nav {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    .arrow{
+      font-size: 12px;
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%) scaleY(0.8) rotate(0);
+      transition: all .3s;
+    }
+    & > div {
+      position: relative;
+      a{
+        display: block;
+        position: relative;
+      }
+      &:hover{
+        background-color: @nav_active_bg !important;
+      }
+      ul {
+        display: none;
+        left: 0;
+        position: absolute;
+        top: 50px;
+        background-color: @sub_nav_bg;
+        list-style: none;
+        z-index: 999;
+        width: 150px;
+        li {
+          list-style: none;
+          a {
+            display: block;
+          }
+          a:hover{
+            background-color: @sub_nav_hover_bg;
+          }
+        }
+      }
+
+      a {
+        padding: 0 25px;
+        color: #fff;
+        &.active{
+          background-color: @nav_active_bg;
+        }
+      }
+    }
+  }
+
+  .layoutChangeBtn{
+    padding: 0 15px;
+    cursor: pointer;
+    text-align: center;
+    span{
+      margin-right: 5px;
+    }
+  }
+
+  // 左右水平布局
+  &.horizontal{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 180px;
+    bottom: 0;
+    flex-direction: column;
+    width: @logo_width;
+    height: 100%;
+    nav{
+      flex-direction: column;
+      .arrow{
+        &.up{
+          transform: translateY(-50%) scaleY(0.8) rotate(180deg);
+        }
+      }
+      &>div{
+        margin-bottom: 1px;
+        ul{
+          background-color: @horizontal_ul_bg;
+          width: 100%;
+          &.show{
+            display: block;
+          }
+          &.hide{
+            display: none;
+          }
+          li{
+            margin-top: 1px;
+            &.subAcitve{
+              background-color: @nav_active_bg;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  // 上下垂直布局
+  &.vertical{
+    flex-direction: row;
+    nav>div{
+      margin-right: 1px;
+      &:hover {
+        .arrow{
+          transform: translateY(-50%) scaleY(0.8) rotate(180deg);
+        }
+        ul {
+          display: block;
+        }
+      }
+    }
+  }
+
+  .logo {
+    width: @logo_width;
+    padding-left: 15px;
+    font-size: 20px;
+    color: #c7dae5;
+  }
+}
+
+

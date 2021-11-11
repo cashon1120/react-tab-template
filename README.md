@@ -50,6 +50,14 @@
             <th>tabs.forceUpdate()</th>
             <th>强制更新标签状态(不是更新所有页面), 有时候会有用...</th>
         </tr>
+        <tr>
+            <th>tabs.shouldClassComponentUpdate(nextProps)</th>
+            <th>切换标签禁止更新Class组件, 配合shouldComponentUpdate使用</th>
+        </tr>
+        <tr>
+            <th>tabs.shouldFunctionComponentUpdate()</th>
+            <th>切换标签时不更新函数组件, 配合React.memo(), 作为第二个参数传入</th>
+        </tr>
     </table>
 
 详细使用可参考 /src/pages/testpages 里的代码

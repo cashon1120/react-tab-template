@@ -1,11 +1,15 @@
 .main {
   display: flex;
+}
+.horizontal {
+  flex-direction: row;
+  height: 100%;
+  padding-left: 180px;
+}
+.vertical {
   flex-direction: column;
 }
 .contentWrapper {
-  display: flex;
   flex-direction: row;
-}
-.content {
   flex: 1;
 }

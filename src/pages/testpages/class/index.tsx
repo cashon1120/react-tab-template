@@ -105,13 +105,13 @@ class Index extends React.Component<IProps, IState> {
     return (
       <>
         <div style={{ padding: 25, lineHeight: 2 }}>
-          当后面点过的页面超过 MAX_COUNT 时会清空状态 <br />
+          当标签数量超过 MAX_COUNT 时会清空状态 <br />
           <p />
           监听 onMessage 事件: {message}
           <p />
           监听 onQuery 事件, 获取到的参数: {query}
           <p />
-          state参数, {JSON.stringify(this.props.location.state)}
+          state参数: {JSON.stringify(this.props.location.state)}
           <p />
         </div>
       </>

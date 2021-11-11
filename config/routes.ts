@@ -36,24 +36,16 @@ const routes: RouteProps[] = [
     id: 200,
   },
   {
-    path: '/page2',
-    exact: true,
-    name: 'page2',
-    component: '@/pages/page2',
-    id: 300,
-  },
-  {
     path: '/test',
     exact: true,
-    redirect: '/test/class',
-    name: '组件测试',
-    id: 400,
+    name: '标签测试',
+    id: 300,
     routes: [
       {
         path: '/test/class',
         component: '@/pages/testpages/class',
-        name: 'class组件',
-        id: 4001,
+        name: '测试页',
+        id: 3001,
         pid: 400,
       },
       {

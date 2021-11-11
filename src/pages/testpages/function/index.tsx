@@ -22,11 +22,11 @@ const columns: any = [
 const Index = (props: any) => {
   const [pathProps, setPathProps] = useState('');
   const onShow = () => {
-    console.log('显示函数组件');
+    console.log('显示组件');
   };
 
   const onHide = () => {
-    console.log('隐藏函数组件');
+    console.log('隐藏组件');
   };
 
   const onClose = () => {
@@ -135,6 +135,17 @@ const Index = (props: any) => {
     {
       name: 'tabs.forceUpdate()',
       desc: '强制更新标签状态(不是更新所有页面), 有时候会有用...',
+      exam: '',
+    },
+    {
+      name: 'tabs.shouldClassComponentUpdate(nextProps)',
+      desc: '切换标签禁止更新Class组件, 配合shouldComponentUpdate使用',
+      exam: '',
+    },
+
+    {
+      name: 'tabs.shouldFunctionComponentUpdate()',
+      desc: '切换标签时不更新函数组件, 配合React.memo(), 作为第二个参数传入',
       exam: '',
     },
   ];

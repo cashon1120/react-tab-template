@@ -48,6 +48,10 @@ export interface ReplaceOption {
   newPath: string;
 }
 
+export interface InitParams {
+  route: RouteProps[],
+  maxCount?: number
+}
 export interface ManagerClass {
   replaceOption: ReplaceOption;
   flatRoutes: FlatRoutes;
@@ -55,12 +59,12 @@ export interface ManagerClass {
   permissionRoutes: FlatRoutes;
   routes: TabRoutes;
   menu: ILayoutMenu[];
-  updateMenu: (props: any) => void;
+  updateTab: (props: any) => void;
   open: (path: string, params?: any, disableExcuteOnQuery?: boolean) => void;
   openWithState: (path: string, state?: any) => void;
   replace: (path: string, params?: any, widthState?: boolean) => void;
   replaceWithState: (path: string, state?: any) => void;
-  initRoutes: (route: RouteProps[]) => void;
+  init: (params: InitParams) => void;
   close: (path?: string) => void;
   unloadComponent: (path: string[]) => void;
   // 路由切换事件
@@ -89,8 +93,8 @@ export interface ManagerClass {
   addRoute: (route: IMenu, path: string) => void;
   // 获取地址栏参数, 返回 {key: value} 格式
   getQuery: () => Object;
-  // 判断导航是否显示active效果
-  getParentPath: (path: string) => string;
+  // 获取父路由
+  getParentPath: (path?: string) => string;
   // 获取当前标签页的权限
   getRouteProps: (path?: string) => {
     id: number;
