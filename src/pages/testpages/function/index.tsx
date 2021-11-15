@@ -62,7 +62,7 @@ const Index = (props: any) => {
             })
           }
         >
-          先打开class组件 发送一个随机数字
+          先打开测试页, 发送一个随机数字
         </Button>
       ),
     },
@@ -119,12 +119,10 @@ const Index = (props: any) => {
     },
     {
       name: 'tabs.getRouteProps(path?: string)',
-      desc: `返回当前页面(没指定path时)属性, {id: number;
+      desc: `返回当前页面(没指定path时)属性, {
               name: string;
-              pid: number;
-              permission: number;
               parentPath: string;
-              parentPermission: number};`,
+            };`,
       exam: (
         <Button
           onClick={() => setPathProps(JSON.stringify(tabs.getRouteProps()))}

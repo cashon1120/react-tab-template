@@ -29,8 +29,7 @@ class TabManager implements ManagerClass {
   sourceRoutes: RouteProps[];
   // 拍平的路由配置, 如: {/driver: {path: '/driver', name: '司机画像', _icon: undefined}, ...}
   flatRoutes: FlatRoutes;
-  // 有权限的路由
-  permissionRoutes: FlatRoutes;
+
   // 外层导航显示的数据
   menu: ILayoutMenu[];
   // 打开后会用到的route
@@ -38,7 +37,7 @@ class TabManager implements ManagerClass {
   // 维护两个最近操作过的页面, 触发显示和隐藏事件, 第[0]条数据为上一次打开路由, 第[1]条数据为当前打开的路由
   lastTwoRoutes: string[];
   // 已打开的路由队列
-  openedRoutesListt: string[];
+  openedRoutesList: string[];
   // 最大标签打开数量
   MAX_COUNT: number;
   // 缓存当前打开的路由, 等同于 layouts 中的 menu
@@ -53,24 +52,25 @@ class TabManager implements ManagerClass {
   // 强制更新
   forceUpdate: Function;
 
+  // 首页地址
+  homePageName: string
+
   // 404地址
   notFoundPageName: string
 
   constructor() {
     this.flatRoutes = {};
-    this.permissionRoutes = {
-      '/notfound': this.flatRoutes['/notfound'],
-    };
     this.sourceRoutes = [];
     this.routes = {};
     this.menu = navManager.menu;
     this.lastTwoRoutes = [];
-    this.openedRoutesListt = [];
+    this.openedRoutesList = [];
     this.MAX_COUNT = 15;
     this.cacheMenu = [];
     this.onRouteChangeCallback = [];
     this.forceUpdate = () => {};
     this.notFoundPageName = ''
+    this.homePageName = '/'
     this.replaceOption = {
       willReplace: false,
       topPath: '',
@@ -81,9 +81,12 @@ class TabManager implements ManagerClass {
   }
 
   init = (params: InitParams) => {
-    const {routes, notFoundPageName, maxCount, } = params
+    const {routes, notFoundPageName, homePageName, maxCount, } = params
     if(!Array.isArray(routes)){
       throw new Error('请传入正确的路由配置');
+    }
+    if(!homePageName){
+      throw new Error('请传入首页地址, 在umirc.ts里配置');
     }
     if(!notFoundPageName){
       throw new Error('请传入404路由地址, 在umirc.ts里配置');
@@ -93,6 +96,8 @@ class TabManager implements ManagerClass {
     this.sourceRoutes = routes
     // 防止传入的地址不带 /
     this.notFoundPageName = '/' + notFoundPageName.replace('/', '')
+    this.homePageName = '/' + homePageName.replace('/', '')
+
     if(maxCount && typeof maxCount === 'number'){
       this.MAX_COUNT = maxCount
     }
@@ -127,7 +132,7 @@ class TabManager implements ManagerClass {
     return this.shouldComponentUpdate(state, 'function');
   };
 
-  private updateopenedRoutesListt = (path: string): string[] => {
+  private updateopenedRoutesList = (path: string): string[] => {
     // 对于没有component的路由不需要处理, 比如有些路由没有组件, 是直接redircet到其它路由 404(notfound) 或者
     // 没有对应路由不处理
     if (
@@ -135,9 +140,9 @@ class TabManager implements ManagerClass {
       path === this.notFoundPageName ||
       !this.flatRoutes[path]
     ) {
-      return this.openedRoutesListt;
+      return this.openedRoutesList;
     }
-    const list = this.openedRoutesListt;
+    const list = this.openedRoutesList;
     const index = list.findIndex((value: string) => value === path);
     index === -1
       ? list.push(path)
@@ -259,8 +264,8 @@ class TabManager implements ManagerClass {
 
   reSetRoutesByReplace = (oldPath: string) => {
     delete this.routes[oldPath];
-    this.openedRoutesListt = TabManager.deleteOpendList(
-      this.openedRoutesListt,
+    this.openedRoutesList = TabManager.deleteOpendList(
+      this.openedRoutesList,
       oldPath,
     );
     this.replaceOption = {
@@ -276,7 +281,7 @@ class TabManager implements ManagerClass {
     const path = this.getCurrentPath();
     this.cacheMenu = menu;
     this.updateRoutes(path);
-    this.openedRoutesListt = this.updateopenedRoutesListt(path);
+    this.openedRoutesList = this.updateopenedRoutesList(path);
     this.findShouldUnloadPath();
     this.pushNewRouteToLastTwoRoutes(menu, path);
     if (this.lastTwoRoutes.length === 2) {
@@ -301,7 +306,7 @@ class TabManager implements ManagerClass {
 
   findNextShouldOpenPath = (path: string): string => {
     let shouldOpenPath = '';
-    // 找到当前路由后去找兄弟路由, 配合 this.openedRoutesListt 找到接下来应该显示哪一个页面
+    // 找到当前路由后去找兄弟路由, 配合 this.openedRoutesList 找到接下来应该显示哪一个页面
     const { parentPath } = this.routes[path];
     const siblings = Object.keys(this.routes).filter(
       (key: string) =>
@@ -311,8 +316,8 @@ class TabManager implements ManagerClass {
       for (let i = 0; i < siblings.length; i++) {
         const __path = siblings[i];
         // 从后往前找, 匹配上了就显示对应路由
-        for (let j = this.openedRoutesListt.length - 1; j >= 0; j--) {
-          if (this.openedRoutesListt[j] === __path) {
+        for (let j = this.openedRoutesList.length - 1; j >= 0; j--) {
+          if (this.openedRoutesList[j] === __path) {
             shouldOpenPath = __path;
             break;
           }
@@ -324,7 +329,7 @@ class TabManager implements ManagerClass {
     } else {
       // 如果没有兄弟路由就打开最近打开的一个
       shouldOpenPath =
-        this.openedRoutesListt[this.openedRoutesListt.length - 1];
+        this.openedRoutesList[this.openedRoutesList.length - 1];
     }
     return shouldOpenPath;
   };
@@ -337,8 +342,8 @@ class TabManager implements ManagerClass {
     // executeClose: 因为关闭事件有 onClose 和 onConfirmClose 两种, 第一种直接执行,第二种需要用户反馈后再执行
     // onConfirmClose 中的事件必须为一个 Promise
     const executeClose = () => {
-      this.openedRoutesListt = TabManager.deleteOpendList(
-        this.openedRoutesListt,
+      this.openedRoutesList = TabManager.deleteOpendList(
+        this.openedRoutesList,
         _path,
       );
       shouldOpenPath = this.findNextShouldOpenPath(_path);
@@ -349,7 +354,7 @@ class TabManager implements ManagerClass {
       if (shouldOpenPath) {
         this.open(shouldOpenPath, null, true);
       } else {
-        // 没有可打开的页面时(this.openedRoutesListt为空), 跳转到首页;
+        // 没有可打开的页面时(this.openedRoutesList为空), 跳转到首页;
         this.open('/home');
       }
       // 延迟删除this.routes, 有些事件需要处理, 不然会出问题
@@ -397,29 +402,18 @@ class TabManager implements ManagerClass {
   };
 
   getCurrentPath = () => {
-    // 删除后面的参数才是真实路由, 目前还没有有参数的情况
-    return toLocaleLowerCase(location.pathname.replace(/\/\d+/g, ''));
+    return removeAllQuery(location.pathname.replace(/\/\d+/g, ''));
   };
 
-  getTopPath = (path?: string) => {
-    let result: string | undefined = '';
-    if (path && !this.flatRoutes[path]) {
-      return '';
+  getTopPath = (path?: string): string => {
+    path = path || this.getCurrentPath()
+    let topPath = path
+    let parentPath = this.flatRoutes[topPath].parentPath
+    while (parentPath) {
+      topPath = this.flatRoutes[parentPath].path
+      parentPath = this.flatRoutes[topPath].parentPath
     }
-
-    const currentPath = path || this.getCurrentPath();
-    const findTopParentPath = (path: string) => {
-      if (this.checkRouteExist(path)) {
-        const { parentPath } = this.flatRoutes[path];
-        if (parentPath) {
-          findTopParentPath(parentPath);
-        } else {
-          result = path;
-        }
-      }
-    };
-    findTopParentPath(currentPath);
-    return result || '';
+    return topPath as string;
   };
 
   // 是否显示子页面标签栏目, 如 /home 路由
@@ -507,9 +501,9 @@ class TabManager implements ManagerClass {
     if (path) {
       overflowList = [path];
     }
-    const overflowCount = this.openedRoutesListt.length - this.MAX_COUNT;
+    const overflowCount = this.openedRoutesList.length - this.MAX_COUNT;
     if (overflowCount > 0) {
-      overflowList = this.openedRoutesListt.slice(0, overflowCount);
+      overflowList = this.openedRoutesList.slice(0, overflowCount);
       this.unloadComponent(overflowList);
     }
   };
@@ -568,17 +562,20 @@ class TabManager implements ManagerClass {
     };
   };
 
-  checkPermission = (path: string) => {
-    const permission = this.permissionRoutes[path];
-    return !!permission;
-  };
-
-  goBack = () => {
+  goBack = (step?: number) => {
     const path = this.getCurrentPath();
     const { fromPath } = this.routes[path];
     if (fromPath) {
       this.replace(fromPath);
     } else {
+      if (step && step < 0) {
+        const backPath =
+          this.openedRoutesList[this.openedRoutesList.length - 1 + step];
+        if (backPath) {
+          this.open(backPath || this.homePageName);
+          return;
+        }
+      }
       const { parentPath } = this.flatRoutes[path];
       parentPath && this.replace(parentPath);
     }

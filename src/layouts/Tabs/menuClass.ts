@@ -6,7 +6,6 @@ class Menu implements IMenu {
   show: boolean;
   title: string;
   unload: boolean;
-  id?: number;
   // 保存地址栏参数, 关闭标签页后跳转到当前页时用
   queryString: string;
   showParent?: boolean;

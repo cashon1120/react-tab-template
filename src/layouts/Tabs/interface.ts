@@ -50,6 +50,7 @@ export interface ReplaceOption {
 
 export interface InitParams {
   routes: RouteProps[];
+  homePageName: string;
   notFoundPageName: string;
   maxCount?: number;
 }
@@ -57,7 +58,6 @@ export interface ManagerClass {
   replaceOption: ReplaceOption;
   flatRoutes: FlatRoutes;
   sourceRoutes: RouteProps[];
-  permissionRoutes: FlatRoutes;
   routes: TabRoutes;
   menu: ILayoutMenu[];
   updateTab: (props: any) => void;
@@ -98,15 +98,10 @@ export interface ManagerClass {
   getParentPath: (path?: string) => string;
   // 获取当前标签页的权限
   getRouteProps: (path?: string) => {
-    id: number;
     name: string;
-    pid: number;
-    permission: number;
     parentPath: string;
-    parentPermission: number;
   };
-  checkPermission: (path: string) => boolean;
-  goBack: () => void;
+  goBack: (step?: number) => void;
   forceUpdate: Function;
 }
 
@@ -119,8 +114,6 @@ export interface IMenu extends TabRoutesProps {
   redirect?: string;
   component?: string;
   unload?: boolean;
-  permission?: number;
-  id?: number;
   setChildren: (ele: React.ReactElement | null) => void;
   getPath: () => string;
   getChildren: () => React.ReactElement | null;
