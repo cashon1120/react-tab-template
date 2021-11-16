@@ -1,7 +1,7 @@
 const Index = () => {
   return <div style={{padding: 20}}>
     <h3>主要功能</h3>
-    <ul style={{padding: 30}}>
+    <ul style={{paddingLeft: 30}}>
       <li>实现导航切换和二级页面标签切换不重新加载路由的功能;</li>
       <li>标签页之间可跳转并传参;</li>
       <li>标签与标签之间通信, 不用切换标签;</li>
@@ -9,7 +9,7 @@ const Index = () => {
       <li>关闭标签时提醒用户;</li>
     </ul>
 
-    <h3>说明</h3>
+    <h3 style={{paddingTop:30}}>说明</h3>
     <ul style={{paddingLeft: 30}}>
       <li>框架基于umi, ui引入了antd组件;</li>
       <li>在入口文件: /src/layouts/index.tsx, tabs.init 时注意传入必要的参数 </li>
