@@ -8,7 +8,7 @@ import styles from './index.less';
 
 tabs.init({
   routes,
-  homePageName: '/home',
+  homePageName: '/',
   notFoundPageName: '/notfound',
   maxCount: 15
 });
